@@ -1,3 +1,4 @@
 # CRBR-Libs
 
-`https://raw.githubusercontent.com/albericwalsh/CRBR-Libs/main/crbr`
+`npm install git+https://github.com/albericwalsh/CRBR-Libs.git
+`

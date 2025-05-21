@@ -1,0 +1,6 @@
+{
+  "name": "crbr-libs",
+  "version": "1.0.0",
+  "main": "CRBR-Libs.js",
+  "type": "module"
+}
