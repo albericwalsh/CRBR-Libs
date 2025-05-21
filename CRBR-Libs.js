@@ -9,13 +9,18 @@ const API_BASE_URL = "http://localhost:4000/api/v1";
  * @throws {Error} Si l'utilisateur n'est pas authentifié
  */
 export async function getProfile(api_base_url = API_BASE_URL) {
-    const res = await fetch(`${api_base_url}/users/profile`, {
-        method: 'GET',
-        credentials: 'include' // 🍪 Nécessaire pour inclure le cookie d'authentification
-    });
+    try {
+        const res = await fetch(api_base_url+'/users/profile', {
+            method: 'GET',
+            credentials: 'include' // envoie le cookie 'token' automatiquement
+        });
 
-    if (!res.ok) throw new Error('❌ Non authentifié');
-    return res.json();
+        return res.ok;
+        // session invalide
+    } catch (err) {
+        console.error('Erreur lors de la vérification de session :', err);
+        return false;
+    }
 }
 
 /**
@@ -28,15 +33,24 @@ export async function getProfile(api_base_url = API_BASE_URL) {
  * @throws {Error} En cas d'échec d'authentification
  */
 export async function login(email, password, api_base_url = API_BASE_URL) {
-    const res = await fetch(`${api_base_url}/users/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ email, password })
-    });
+    try {
+        const res = await fetch(api_base_url+'/users/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+            credentials: 'include' // pour recevoir le cookie token
+        });
 
-    if (!res.ok) throw new Error('❌ Erreur de login');
-    return res.json();
+        const data = await res.json();
+        if (res.ok) {
+            return { success: true, data };
+        } else {
+            return { success: false, message: data.message || 'Échec de la connexion' };
+        }
+    } catch (err) {
+        console.error("Erreur lors de la connexion :", err);
+        return { success: false, message: 'Erreur réseau, merci de réessayer.' };
+    }
 }
 
 /**
