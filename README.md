@@ -1,3 +1,3 @@
 # CRBR-Libs
 
-`https://raw.githubusercontent.com/albericwalsh/CRBR-Libs/main/crbr.js`
+`https://raw.githubusercontent.com/albericwalsh/CRBR-Libs/main/crbr`
